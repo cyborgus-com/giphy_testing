@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>giphycrap</title>
+</head>
+<body>
+
+    <form class="testform">
+        <input type="text" placeholder="Search for a GIF..." name="search">
+        <button type="submit"></button>
+    </form>
+    <img src="">
+
+    <script>
+        const img = document.querySelector("img");
+        const giphyKey = "pUptOgrk3PdBkv6aacmES3cWJMI3lUN6";
+        let search = document.querySelector("button");
+
+        search.addEventListener("click", (e) => {
+            // need to add preventDefault() so the page doesnt reload upon submission (which lets fetch finish and load the image into the img object)
+            e.preventDefault(); 
+            let query = document.querySelector("input").value;
+            fetch(`https://api.giphy.com/v1/gifs/translate?api_key=${giphyKey}&s=${query}`)
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(response) {
+                    img.src = response.data.images.original.url;
+                    // console.log(response.data.images.original.url);
+                })
+                .catch(function(error) {
+                    alert(error);
+                });
+        })
+
+    </script>
+</body>
+</html>
